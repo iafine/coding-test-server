@@ -1,5 +1,5 @@
 <h1 align="center">
-Coding_Test_Server
+Coding Test Server
 </h1>
 
 ## Description
@@ -39,12 +39,12 @@ $ yarn prod
 $ yarn test
 
 # e2e tests
-$ npm run test:e2e
+$ yarn test:e2e
 
 # test coverage
-$ npm run test:cov
+$ yarn test:cov
 ```
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+Here is [MIT licensed](LICENSE).

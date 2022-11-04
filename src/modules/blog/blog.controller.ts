@@ -4,6 +4,7 @@ import {
   Post,
   Put,
   Delete,
+  Req,
   DefaultValuePipe,
   Param,
   Body,
@@ -21,15 +22,16 @@ export class BlogController {
   @Get('')
   async getBlogList(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
-    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 5,
   ): Promise<Pagination<Blog>> {
     limit = limit > 100 ? 100 : limit
     return this.blogService.getBlogList({ page, limit })
   }
 
   @Post('')
-  async createBlog(@Body() blog: Blog) {
-    const res = await this.blogService.createBlog(blog)
+  async createBlog(@Req() req) {
+    const { body = {} } = req
+    const res = await this.blogService.createBlog(body)
     return res
   }
 
@@ -40,8 +42,9 @@ export class BlogController {
   }
 
   @Put(':id')
-  async updateBlog(@Param('id') id: string, @Body() blog: Blog) {
-    const res = await this.blogService.updateBlogById(id, blog)
+  async updateBlog(@Param('id') id: string, @Req() req) {
+    const { body = {} } = req
+    const res = await this.blogService.updateBlogById(id, body)
     return res
   }
 

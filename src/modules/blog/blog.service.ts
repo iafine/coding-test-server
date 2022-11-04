@@ -20,7 +20,10 @@ export class BlogService {
    * 获取博客列表
    */
   async getBlogList(options: IPaginationOptions): Promise<Pagination<Blog>> {
-    return paginate<Blog>(this.blogRepo, options)
+    return paginate<Blog>(this.blogRepo, options, {
+      where: { isDisabled: false },
+      order: { createdAt: 'DESC' },
+    })
   }
 
   /**
@@ -62,7 +65,7 @@ export class BlogService {
     blog.content = content
 
     const res = await this.blogRepo.save(blog)
-    return await this.findBlogByWhere({ id: res.id })
+    return res
   }
 
   /**
@@ -89,7 +92,7 @@ export class BlogService {
       throw new BadRequestException('Not Find Blog!')
     }
 
-    const blog = await this.updateBlogById(id, { isDisabled: true })
+    const blog = await this.blogRepo.delete(id)
     return blog
   }
 }
